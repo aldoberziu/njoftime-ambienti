@@ -1,0 +1,29 @@
+.index-module_Container__mtjRh button svg {
+  width: 25px;
+  max-width: 30px !important;
+  height: 25px;
+  max-height: 30px !important;
+}
+.hero-slider-slide-background img {
+  border-radius: 6px;
+}
+.slider-container {
+  position: relative;
+}
+.slider-container .slider-bullets {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  bottom: 0px;
+  z-index: 1000;
+  list-style: none;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+.slider-bullets .slider-bullets-list{
+    display:flex;
+    gap:20px;
+    margin: 0px;
+    padding: 0px;
+}
