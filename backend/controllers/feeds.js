@@ -1,6 +1,7 @@
 const Feeds = require("../models/feeds");
 const Plans = require("../models/plans");
 const ApiFeatures = require("../utils/apiFeatures");
+const { categories } = require("../constants");
 
 exports.create = async (req, res, next) => {
   const standardPlan = await Plans.findById("1");
@@ -31,19 +32,34 @@ exports.one = async (req, res, next) => {
   }
   next();
 };
-exports.filterTest = async (req, res, next) => {
-  const filters = new ApiFeatures(Feeds.find(), req.query).filter();
-  const doc = await filters.query;
+exports.searchTest = async (req, res, next) => {
+  const search = req.params.searchValue;
+  const searchElements = search.split(" ");
+  const regexPatterns = searchElements.map((el) => new RegExp(el, "i"));
+  let searchedFeeds = [];
+  for (let i = 0; i < regexPatterns.length; i++) {
+    const feed = await Feeds.find({
+      $or: [
+        { floor: { $regex: regexPatterns[i] } },
+        { structure: { $regex: regexPatterns[i] } },
+      ],
+    });
+    if (feed.length !== 0) {
+      searchedFeeds.push(feed[0]);
+    }
+  }
 
   res.status(200).json({
     status: "success",
-    data: doc,
+    data: searchedFeeds,
   });
   next();
 };
 exports.all = async (req, res, next) => {
   const filters = new ApiFeatures(Feeds.find(), req.query).filter();
+
   const feeds = await filters.query;
+  // console.log(feeds);
 
   res.status(200).json({
     status: "success",

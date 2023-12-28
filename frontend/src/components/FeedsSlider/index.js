@@ -18,46 +18,20 @@ const FeedsSlider = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (sCategory === "") {
+    if (sCategory === "" || sCategory === undefined) {
       axios
         .get(getApiDomain() + "/feeds")
         .then((response) => setFeeds(response.data.data));
-      setTimeout(() => {
-        setLoading(false);
-      }, 0);
+      setLoading(false);
       setFilter(false);
-    }
-  }, [sCategory]);
-
-  const filterFeeds = async () => {
-    if (sCategory !== "") {
-      setLoading(true);
-      await axios
+    } else {
+      axios
         .get(getApiDomain() + `/feeds?category=${sCategory}`)
         .then((response) => setFeeds(response?.data?.data));
-      setFilter(true)
+      setFilter(true);
+      setLoading(false);
     }
-  };
-
-  useEffect(() => {
-    filterFeeds().then(() =>
-      setTimeout(() => {
-        setLoading(false);
-      }, 0)
-    );
   }, [sCategory]);
-
-  // useEffect(() => {
-  //   if (sCategory === "") {
-  //     axios
-  //       .get(getApiDomain() + "/feeds")
-  //       .then((response) => setFeeds(response.data.data));
-  //   } else {
-  //     axios
-  //       .get(getApiDomain() + `/feeds?category=${sCategory}`)
-  //       .then((response) => setFeeds(response?.data?.data));
-  //   }
-  // }, [sCategory]);
 
   if (loading) {
     return <Loader />;
@@ -90,7 +64,8 @@ const FeedsSlider = () => {
               <Link to={`/feeds/${feed._id}`}>
                 <div className="portrait-specifics-container">
                   <Text ui1 className={"title"}>
-                    {feed.city}, Albania
+                    {feed.location?.zone ? `${feed.location.zone}, ` : ""}
+                    {feed.location.city}{" "}
                   </Text>
                   <Text ui3>
                     Ambienti: {feed.rooms} + {feed.toilet}{" "}

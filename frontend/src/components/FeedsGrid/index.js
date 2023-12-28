@@ -6,18 +6,35 @@ import "./FeedsGrid.css";
 import Text from "../Text";
 import Slider from "../Slider";
 import FavoriteButton from "../Favorite";
+import { useSelector } from "react-redux";
+import Loader from "../Loader";
 
 const FeedsGrid = () => {
+  const searchValue = useSelector((state) => state.searchValue);
+
   const [feeds, setFeeds] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get(getApiDomain() + "/feeds")
-      .then((response) => setFeeds(response.data.data));
-  }, []);
-  const addToFavorites = () => {
-    console.log("add to fav");
-  };
+    if (searchValue === "" || searchValue === undefined) {
+      axios
+        .get(getApiDomain() + "/feeds")
+        .then((response) => setFeeds(response.data.data));
+    } else {
+      try {
+        axios
+          .get(getApiDomain() + `/feeds/search-test/${searchValue}`)
+          .then((response) => setFeeds(response?.data?.data));
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    setLoading(false);
+  }, [searchValue]);
+
+  // const addToFavorites = () => {
+  //   console.log("add to fav");
+  // };
 
   if (feeds) {
     return (
@@ -31,10 +48,11 @@ const FeedsGrid = () => {
               <Link to={`/feeds/${feed._id}`}>
                 <div className="specifics-container">
                   <Text ui1 className={"title"}>
-                    {feed.city}, Albania
+                    {feed.location?.zone ? `${feed.location.zone}, ` : ""}
+                    {feed.location.city}{" "}
                   </Text>
                   <Text ui3>
-                    Ambienti: {feed.category} / {feed.furnishing}
+                    Ambienti: {feed.structure} / {feed.furnishing}
                   </Text>
                   <Text ui3>Sipërfaqja: {feed.area} m2</Text>
                   <Text ui3>
@@ -44,7 +62,7 @@ const FeedsGrid = () => {
                     <Text ui1>
                       <strong>${feed.price}</strong>/muaj
                     </Text>
-                    <FavoriteButton feedId={feed._id}/>
+                    <FavoriteButton feedId={feed._id} />
                   </div>
                 </div>
               </Link>

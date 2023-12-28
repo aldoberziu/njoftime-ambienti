@@ -10,7 +10,8 @@ router
   .route("/")
   .get(feeds.all)
   .post(feeds.create)
-  router.route('/filter-test').get(feeds.filterTest);
+
+router.route('/search-test/:searchValue').get(feeds.searchTest);
 
 router
   .route("/:id")

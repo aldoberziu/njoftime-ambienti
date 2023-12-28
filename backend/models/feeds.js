@@ -5,8 +5,8 @@ const Feed = mongoose.model(
   new mongoose.Schema({
     category: { type: String },
     furnishing: { type: String, enum: [ 'E pamobiluar', 'Pjesërisht e mobiluar', 'E mobiluar' ] },
-    toilet: { type: Number },
-    capacity: { type: Number },
+    toilet: { type: String },
+    capacity: { type: String },
     location: { 
       city: {
         type: String,
@@ -14,13 +14,13 @@ const Feed = mongoose.model(
       },
       zone: { type: String },
      },
-    area: { type: Number },
-    floor: { type: Number },
+    area: { type: String },
+    floor: { type: String },
     elevator: { type: Boolean },
     garage: { type: Boolean },
     structure: { type: String },
-    price: { type: Number },
-    rooms: { type: Number },
+    price: { type: String },
+    rooms: { type: String },
     // discountedPrice: { type: Number },    ????
     //extra auto generated data ↓
     createdAt: { type: Number },
