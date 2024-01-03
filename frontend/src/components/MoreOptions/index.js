@@ -38,10 +38,10 @@ const MoreOptions = ({ onToggle }) => {
         </div>
         <div className="range-sliders">
           <PriceRange />
-          <FloorRange />
+          {/* <FloorRange /> */}
         </div>
         <div className="elevator">
-          <label for="elevator">Ashensor: </label>
+          <label htmlFor="elevator">Ashensor: </label>
           <input type="checkbox" id="elevator" name="elevator" value={true} />
         </div>
         <div className="dropdown-selectors">

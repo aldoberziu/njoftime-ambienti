@@ -1,15 +1,26 @@
 .accordion{
   width: 100%;
 }
-.accordion-item {
+.accordion .accordion-item {
   border-bottom: 1px solid #ccc;
 }
-.accordion-header {
+.accordion .accordion-item .accordion-header {
+  display: flex;
+  justify-content: space-between;
   padding: 10px;
   background-color: #f5f5f5;
   cursor: pointer;
 }
-.accordion-content {
+.toggle-icon{
+  display: flex;
+  align-items: center;
+}
+.accordion .accordion-item .accordion-header .toggle-icon img{
+  background: #17A2B8;
+  border-radius: 50%;
+  padding: 2px;
+}
+.price-content {
   display: none;
   padding: 10px;
 }

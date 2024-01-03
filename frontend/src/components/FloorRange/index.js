@@ -17,12 +17,12 @@ const FloorRangeAccordion = () => {
           <div className="floor-input">
             <div className="field">
               <span>Min</span>
-              <input type="number" className="input-min" value="5" />
+              <input type="number" className="input-min" defaultValue="5" />
             </div>
             <div className="separator">-</div>
             <div className="field">
               <span>Max</span>
-              <input type="number" className="input-max" value="20" />
+              <input type="number" className="input-max" defaultValue="20" />
             </div>
           </div>
           <div className="slider">
@@ -34,7 +34,7 @@ const FloorRangeAccordion = () => {
               className="range-min"
               min="0"
               max="50"
-              value="5"
+              defaultValue="5"
               step="1"
             />
             <input
@@ -42,7 +42,7 @@ const FloorRangeAccordion = () => {
               className="range-max"
               min="0"
               max="50"
-              value="20"
+              defaultValue="20"
               step="1"
             />
           </div>
