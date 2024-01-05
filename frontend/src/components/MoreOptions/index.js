@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PriceRange from "../PriceRange";
 import FloorRange from "../FloorRange";
 import "./MoreOptions.css";
+import { cities, zones } from "../../Constants";
 
 const MoreOptions = ({ onToggle }) => {
   const [modal, setModal] = useState(false);
@@ -10,35 +11,40 @@ const MoreOptions = ({ onToggle }) => {
     setModal(!modal);
     onToggle(modal);
   };
+  const [selectedCity, setSelectedCity] = useState("DEFAULT");
+
+  const handleOptionChange = (e) => {
+    const selectedElement = e.target.value;
+    setSelectedCity(selectedElement);
+  };
 
   return (
     <div className="modal">
       <div /*onClick={toggleModal}*/ className="overlay"></div>
       <div className="modal-content">
         <div className="dropdown-selectors">
-          <select defaultValue={"DEFAULT"} className="sh2">
+          <select defaultValue={selectedCity} className="sh2" onChange={handleOptionChange}>
             <option disabled value="DEFAULT">
               Zgjidh qytetin
             </option>
-            <option value="durres">durres</option>
-            <option value="shkodra">shkodra</option>
-            <option value="berati">berati</option>
-            <option value="berati">berati</option>
-            <option value="berati">berati</option>
-            <option value="berati">berati</option>
+            {cities.map((el) => (
+              <option value={el._id}>{el.city}</option>
+            ))}
           </select>
           <select defaultValue={"DEFAULT"} className="sh2">
             <option disabled value="DEFAULT">
               Zgjidh zonen
             </option>
-            <option value="durres">Rruga e Kavajes</option>
-            <option value="shkodra">Currila</option>
-            <option value="berati">Borsh</option>
+            {zones.map((el) => {
+              if (el.cityId === selectedCity) {
+                return <option value={el._id}>{el.zone}</option>;
+              }
+            })}
           </select>
         </div>
         <div className="range-sliders">
           <PriceRange />
-          {/* <FloorRange /> */}
+          <FloorRange />
         </div>
         <div className="elevator">
           <label htmlFor="elevator">Ashensor: </label>
