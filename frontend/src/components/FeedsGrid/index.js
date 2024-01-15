@@ -23,6 +23,8 @@ const FeedsGrid = () => {
         axios
         .get(getApiDomain() + `/feeds/search/${searchValue}`)
         .then((response) => setFeeds(response?.data?.data));
+        const grid = document.getElementById("feeds-grid");
+        grid.scrollIntoView({ behavior: "smooth" });
       } catch (err) {
         console.log(err);
       }
@@ -51,7 +53,7 @@ const FeedsGrid = () => {
   if (feeds) {
     return (
       <div>
-        <div className="display-block-2x">
+        <div className="display-block-2x" id="feeds-grid">
           {feeds.map((feed) => (
             <div className="single-container" key={feed._id}>
               <div className="image-container">

@@ -11,7 +11,7 @@ const FilterContainer = () => {
     dispatch({ type: "changeCategory", category: "" });
   };
   return (
-    <div className="filter-container">
+    <div className="filter-container" id="filter-container">
       <div className="reset-filter" onClick={resetCategory}>
         <Button>Reset Filter</Button>
       </div>

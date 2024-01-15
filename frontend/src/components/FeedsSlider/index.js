@@ -31,6 +31,8 @@ const FeedsSlider = () => {
         .then((response) => setFeeds(response?.data?.data));
       setFilter(true);
       setLoading(false);
+      const filter = document.getElementById("filter-container");
+      filter.scrollIntoView({ behavior: "smooth" });
     }
   }, [sCategory]);
 
