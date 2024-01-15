@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import PriceRange from "../PriceRange";
 import FloorRange from "../FloorRange";
-import "./MoreOptions.module.css";
+import "./MoreOptions.css";
 import { cities, zones, structures } from "../../Constants";
 import Button from "../Button";
 import axios from "axios";

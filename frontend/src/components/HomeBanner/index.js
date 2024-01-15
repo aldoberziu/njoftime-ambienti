@@ -1,6 +1,6 @@
 import { BannerImage } from '../../icons';
 import Search from '../SearchBar';
-import './HomeBanner.module.css'
+import './HomeBanner.css'
 
 const Banner = () => {
     return ( 

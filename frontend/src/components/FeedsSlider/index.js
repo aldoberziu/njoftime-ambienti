@@ -2,7 +2,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { getApiDomain } from "../../config";
 import { useEffect, useState } from "react";
-import "./FeedsSlider.module.css";
+import "./FeedsSlider.css";
 import Text from "../Text";
 import { EmptyHeart } from "../../icons";
 import Slider from "../Slider";

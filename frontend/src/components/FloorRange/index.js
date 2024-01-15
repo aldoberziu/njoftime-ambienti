@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Text from "../Text";
 import { UpArrow, DownArrow } from "../../icons";
-import "./FloorRange.module.css";
+import "./FloorRange.css";
 
 const FloorRangeAccordion = ({ sendTheValues }) => {
   const [accordion, setAccordion] = useState(false);

@@ -1,6 +1,6 @@
 import FilterEl from "../FilterEl";
 import { categories } from "../../Constants";
-import "./FilterContainer.module.css";
+import "./FilterContainer.css";
 import Button from "../Button";
 import { useDispatch } from "react-redux";
 

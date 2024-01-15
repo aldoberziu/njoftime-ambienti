@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Text from "../Text";
 import { UpArrow, DownArrow } from "../../icons";
-import "./PriceRange.module.css";
+import "./PriceRange.css";
 
 const PriceRangeAccordion = ({sendTheValues}) => {
   const [accordion, setAccordion] = useState(false);

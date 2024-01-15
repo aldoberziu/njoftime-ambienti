@@ -1,4 +1,4 @@
-import './FilterEl.module.css';
+import './FilterEl.css';
 import Text from '../Text';
 import Button from '../Button';
 import { useDispatch } from 'react-redux';

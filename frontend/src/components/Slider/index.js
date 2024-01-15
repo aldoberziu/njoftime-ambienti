@@ -4,7 +4,7 @@ import {
   PortraitCardImg3,
   PortraitCardImg4,
 } from "../../icons";
-import "./Slider.module.css";
+import "./Slider.css";
 import { useState } from "react";
 const Slider = () => {
   const images = [

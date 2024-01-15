@@ -1,7 +1,7 @@
 import Button from "../Button";
 import Text from "../Text";
 import { SearchIcon } from "../../icons";
-import "./SearchBar.module.css";
+import "./SearchBar.css";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { DownArrowTriangle } from "../../icons";
