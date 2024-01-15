@@ -1,7 +1,7 @@
 import Button from "../Button";
 import Text from "../Text";
 import { SearchIcon } from "../../icons";
-import "./SearchBar.css";
+import "./SearchBar.module.css";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { DownArrowTriangle } from "../../icons";
@@ -20,7 +20,6 @@ const Search = () => {
 
   function SubmitOnEnter() {
     var input = document.getElementById("search-input-field");
-    console.log(input);
     input.addEventListener("keypress", function (e) {
       if (e.key === "Enter") {
         e.preventDefault();
@@ -29,7 +28,6 @@ const Search = () => {
     });
   }
   const getModalState = (data) => {
-    console.log(data);
     setModal(data);
   };
   const showModal = () => {

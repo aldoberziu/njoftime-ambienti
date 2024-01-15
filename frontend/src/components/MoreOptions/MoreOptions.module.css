@@ -20,6 +20,9 @@ body.active-modal {
   right: 0;
   bottom: 0;
 }
+.overlay:hover{
+  cursor: pointer;
+}
 .modal {
   z-index: 3;
 }
@@ -58,6 +61,7 @@ select option {
   display: flex;
   justify-content: center;
   gap: 50px;
+  margin: 20px 0;
 }
 
 

@@ -12,7 +12,7 @@ import { createStore } from "redux";
 // })
 // see 18.18 video to see how to export this new way of writing a lot of states
 
-const filterCategoriesReducer = (state = { category: '', searchValue: '' }, action) => {
+const filterCategoriesReducer = (state = { category: '', searchValue: '' , filterString: ''}, action) => {
   if (action.type === "changeCategory") {
     return {
       category: action.category,
@@ -21,6 +21,11 @@ const filterCategoriesReducer = (state = { category: '', searchValue: '' }, acti
   if (action.type === "searchValue") {
     return {
       searchValue: action.searchValue,
+    };
+  }
+  if (action.type === "filterString") {
+    return {
+      filterString: action.filterString,
     };
   }
   return state;

@@ -1,5 +1,5 @@
 "use client";
-import "./PlansContainer.css";
+import "./PlansContainer.module.css";
 import Button from "../Button/index";
 import Text from "../Text";
 import { Checked } from "../../icons";

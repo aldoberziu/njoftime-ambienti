@@ -15,11 +15,11 @@ const Feed = mongoose.model(
       zone: { type: String },
      },
     area: { type: String },
-    floor: { type: String },
+    floor: { type: Number },
     elevator: { type: Boolean },
     garage: { type: Boolean },
     structure: { type: String },
-    price: { type: String },
+    price: { type: Number },
     rooms: { type: String },
     // discountedPrice: { type: Number },    ????
     //extra auto generated data ↓

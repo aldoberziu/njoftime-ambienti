@@ -1,5 +1,5 @@
 import { createElement } from "react";
-import './Text.scss'
+import './Text.module.scss'
 
 const Text = ({
   children,

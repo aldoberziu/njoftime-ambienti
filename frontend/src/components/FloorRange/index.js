@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import Text from "../Text";
 import { UpArrow, DownArrow } from "../../icons";
-import "./FloorRange.css";
+import "./FloorRange.module.css";
 
-const FloorRangeAccordion = () => {
+const FloorRangeAccordion = ({ sendTheValues }) => {
   const [accordion, setAccordion] = useState(false);
   const [minValue, setMinValue] = useState(0);
   const [maxValue, setMaxValue] = useState(10);
@@ -66,6 +66,7 @@ const FloorRangeAccordion = () => {
         }
       });
     });
+    sendTheValues([minValue, maxValue]);
   }, [minValue, maxValue]);
 
   return (

@@ -10,13 +10,5 @@ class ApiFeatures {
         this.query = this.query.find(JSON.parse(queryStr));
         return this;
     }
-    // search(){
-    //     const searchElements = this.queryString.split(" ");
-    //     searchElements.$or = [
-    //         { floor: { $regex: searchElements.join(".*") } },
-    //         { structure: { $regex: searchElements.join(".*") } },
-    //       ];
-    //     console.log(searchElements)
-    // }
 }
 module.exports = ApiFeatures;

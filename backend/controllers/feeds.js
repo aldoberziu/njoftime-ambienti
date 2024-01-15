@@ -1,7 +1,7 @@
 const Feeds = require("../models/feeds");
 const Plans = require("../models/plans");
 const ApiFeatures = require("../utils/apiFeatures");
-const { categories } = require("../constants");
+const { structures } = require("../constants");
 
 exports.create = async (req, res, next) => {
   const standardPlan = await Plans.findById("1");
@@ -32,22 +32,91 @@ exports.one = async (req, res, next) => {
   }
   next();
 };
-exports.searchTest = async (req, res, next) => {
-  const search = req.params.searchValue;
-  const searchElements = search.split(" ");
-  const regexPatterns = searchElements.map((el) => new RegExp(el, "i"));
-  let searchedFeeds = [];
-  for (let i = 0; i < regexPatterns.length; i++) {
-    const feed = await Feeds.find({
-      $or: [
-        { floor: { $regex: regexPatterns[i] } },
-        { structure: { $regex: regexPatterns[i] } },
-      ],
-    });
-    if (feed.length !== 0) {
-      searchedFeeds.push(feed[0]);
+exports.filterOptions = async (req, res, next) => {
+  let { city, zone, structure, minP, maxP } = req.query;
+
+  let feeds = [];
+  let filteredFeeds = [];
+  let matchStrQuery = {};
+  let matchNumQuery = {};
+  matchStrQuery.$or = [];
+  matchNumQuery.$and = [];
+  if (!!city || !!zone || !!structure) {
+    if (!!city) {
+      matchStrQuery.$or.push({ "location.city": { $regex: `^${city}$` } });
+    }
+    if (!!zone) {
+      matchStrQuery.$or.push({ "location.zone": { $regex: `^${zone}$` } });
+    }
+    if (!!structure) {
+      matchStrQuery.$or.push({ structure: { $regex: `^${structure}$` } });
     }
   }
+  if (!!minP || !!maxP) {
+    if (!!minP) {
+      matchNumQuery.$and.push({ price: { $gt: Number(minP) } });
+    }
+    if (!!maxP) {
+      matchNumQuery.$and.push({ price: { $lt: Number(maxP) } });
+    }
+  }
+
+  if (matchNumQuery.$and.length !== 0) {
+    filteredFeeds = await Feeds.aggregate([{ $match: matchNumQuery }]);
+  }
+  if (matchStrQuery.$or.length !== 0) {
+    filteredFeeds = await Feeds.aggregate([{ $match: matchStrQuery }]);
+  }
+  if (filteredFeeds.length !== 0) {
+    for (let i = 0; i < filteredFeeds.length; i++) {
+      feeds.push(filteredFeeds[i]);
+    }
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: feeds,
+  });
+  next();
+};
+exports.search = async (req, res, next) => {
+  const search = req.params.searchValue;
+  const searchElements = search.split(" ");
+  let searchWords = searchElements.filter((item) => isNaN(item));
+
+  function matchingElements(searchWords, structures) {
+    return structures.filter((item) => {
+      return searchWords.some((word) => item.structure.toLowerCase().includes(word.toLowerCase()));
+    });
+  }
+  const matchingStructures = matchingElements(searchWords, structures);
+  const regexPatterns = matchingStructures.map((el) => new RegExp(el._id, "i"));
+
+  let searchedFeeds = [];
+  for (let i = 0; i < regexPatterns.length; i++) {
+    let feeds = await Feeds.aggregate([
+      {
+        $match: {
+          $or: [{ structure: { $regex: regexPatterns[i] } }],
+        },
+      },
+    ]);
+    for (let i = 0; i < feeds.length; i++) {
+      if (feeds.length !== 0) {
+        searchedFeeds.push(feeds[i]);
+      }
+    }
+  }
+  // const feed = await rangeFeeds.find({
+  //   $or: [
+  //     { "location.city": { $regex: regexPatterns[i] } },
+  //     { "location.zone": { $regex: regexPatterns[i] } },
+  //     { structure: { $regex: regexPatterns[i] } },
+  //   ],
+  // });
+  // if (feed.length !== 0) {
+  //   searchedFeeds.push(feed[0]);
+  // }
 
   res.status(200).json({
     status: "success",
@@ -59,7 +128,6 @@ exports.all = async (req, res, next) => {
   const filters = new ApiFeatures(Feeds.find(), req.query).filter();
 
   const feeds = await filters.query;
-  // console.log(feeds);
 
   res.status(200).json({
     status: "success",

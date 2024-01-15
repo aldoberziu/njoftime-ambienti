@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import './Loader.scss'
+import './Loader.module.scss'
 
 const Loader = ({ className, show = true, children }) => {
   const [classNames, setClassNames] = useState(['loader', className].filter(Boolean))

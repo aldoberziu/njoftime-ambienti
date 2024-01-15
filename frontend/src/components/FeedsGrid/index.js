@@ -7,30 +7,42 @@ import Text from "../Text";
 import Slider from "../Slider";
 import FavoriteButton from "../Favorite";
 import { useSelector } from "react-redux";
+import { cities, zones, structures } from "../../Constants";
 import Loader from "../Loader";
 
 const FeedsGrid = () => {
   const searchValue = useSelector((state) => state.searchValue);
+  const filterString = useSelector((state) => state.filterString);
 
   const [feeds, setFeeds] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (searchValue === "" || searchValue === undefined) {
-      axios
-        .get(getApiDomain() + "/feeds")
-        .then((response) => setFeeds(response.data.data));
-    } else {
+    if (searchValue !== "" && searchValue !== undefined) {
       try {
         axios
-          .get(getApiDomain() + `/feeds/search-test/${searchValue}`)
+        .get(getApiDomain() + `/feeds/search/${searchValue}`)
+        .then((response) => setFeeds(response?.data?.data));
+      } catch (err) {
+        console.log(err);
+      }
+    } else if (filterString !== "" && filterString !== undefined) {
+      try {
+        axios
+          .get(getApiDomain() + `/feeds/filter${filterString}`)
           .then((response) => setFeeds(response?.data?.data));
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      try {
+        axios.get(getApiDomain() + "/feeds").then((response) => setFeeds(response?.data?.data));
       } catch (err) {
         console.log(err);
       }
     }
     setLoading(false);
-  }, [searchValue]);
+  }, [searchValue, filterString]);
 
   // const addToFavorites = () => {
   //   console.log("add to fav");
@@ -48,11 +60,35 @@ const FeedsGrid = () => {
               <Link to={`/feeds/${feed._id}`}>
                 <div className="specifics-container">
                   <Text ui1 className={"title"}>
-                    {feed.location?.zone ? `${feed.location.zone}, ` : ""}
-                    {feed.location.city}{" "}
+                    {feed.location?.zone
+                      ? zones.map((zone) => {
+                          if (feed.location.zone === zone._id) {
+                            return `${zone.zone}, `;
+                          }
+                        })
+                      : ""}
+                    {feed.location?.city
+                      ? cities.map((city) => {
+                          if (feed.location.city === city._id) {
+                            return `${city.city}`;
+                          }
+                        })
+                      : " "}
                   </Text>
+                  {/* <Text ui3>
+                    Ambienti:{" "}
+                    {feed.structure
+                      ? structures.map((structure) => {
+                          if (feed.structure === structure._id) {
+                            return `${structure.structure}`;
+                          }
+                        })
+                      : " "}{" "}
+                    / {feed.furnishing}
+                  </Text> */}
                   <Text ui3>
-                    Ambienti: {feed.structure} / {feed.furnishing}
+                    Ambienti: {feed.rooms} + {feed.toilet} {feed.garage ? "+ Garazh" : ""} /{" "}
+                    {feed.furnishing}
                   </Text>
                   <Text ui3>Sipërfaqja: {feed.area} m2</Text>
                   <Text ui3>
